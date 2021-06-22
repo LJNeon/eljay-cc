@@ -1,9 +1,11 @@
 env: {
-  es2020: true,
-  node: true
+  es2021: true,
+  browser: true
 }
 
 extends: ["eslint:recommended"]
+
+parserOptions: {sourceType: "module"}
 
 rules: {
   array-bracket-spacing: "error",
@@ -17,6 +19,7 @@ rules: {
     CallExpression: {arguments: 1},
     SwitchCase: 1
   }],
+  key-spacing: "error",
   keyword-spacing: ["error", {
     before: false,
     after: true,
@@ -55,6 +58,7 @@ rules: {
   no-shadow: ["error", {builtinGlobals: true}],
   no-trailing-spaces: "error",
   no-var: "error",
+  nonblock-statement-body-position: ["error", "below"],
   object-curly-newline: ["error", {
     ObjectExpression: {multiline: true, minProperties: 4},
     ObjectPattern: "never",
@@ -105,8 +109,10 @@ rules: {
   prefer-const: ["error", {destructuring: "all"}],
   prefer-template: "error",
   quotes: ["error", "double"],
+  require-await: "error",
   # Dishonor! Dishonor on you, dishonor on ya cow!
   require-atomic-updates: "off",
+  rest-spread-spacing: "error",
   semi: "error",
   space-before-function-paren: ["error", {
     anonymous: "never",
@@ -114,7 +120,6 @@ rules: {
     asyncArrow: "always"
   }],
   space-in-parens: "error",
-  strict: ["error", "global"]
+  strict: ["error", "global"],
+  switch-colon-spacing: "error"
 }
-
-parserOptions: {sourceType: "module"}

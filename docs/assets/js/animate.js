@@ -1,4 +1,3 @@
-/* eslint-env browser */
 (() => {
   const canvas = document.getElementById("animation");
   const ctx = canvas.getContext("2d");
