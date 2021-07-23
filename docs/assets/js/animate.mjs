@@ -1,3 +1,5 @@
+import * as draw from "./draw.mjs";
+
 const canvas = document.getElementById("animation");
 
 export const ctx = canvas.getContext("2d");
@@ -28,7 +30,7 @@ function resize() {
     canvas.width = (scale.blob * 5) + (scale.blob * 0.75);
     canvas.height = (scale.blob * 3) + (scale.blob / 2);
     // TODO: only if animation is ended, re-render final frame
-    d.drawBG();
+    draw.background();
   }
 }
 
