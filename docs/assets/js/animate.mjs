@@ -2,7 +2,7 @@ import * as draw from "./draw.mjs";
 import * as phases from "./phases.mjs";
 
 const canvas = document.getElementById("animation");
-const durations = [2000, 1000/*, 3000, 3000, 3000*/];
+const durations = [1000, 2000, 1000, 3000, 3000];
 const frame = 1000 / 60;
 let phase = 0;
 let duration = 0;
@@ -45,23 +45,22 @@ resize();
 window.onresize = resize;
 
 function drawFrame(progress) {
-  draw.background();
+  if(phase !== 3)
+    draw.background();
 
   switch(phase) {
     case 0:
-      return phases.zero(progress);
+      return;
     case 1:
       return phases.one(progress);
     case 2:
       return phases.two(progress);
     case 3:
-      return phases.three(progress);
+      return phases.three();
     case 4:
       return phases.four(progress);
-    case 5:
-      return phases.five(progress);
     default:
-      return phases.five(1);
+      return phases.four(1);
   }
 }
 
@@ -82,7 +81,7 @@ function loop() {
     duration -= durations[phase];
 
     if(++phase >= durations.length)
-      return (phase--, drawFrame(1), phase++); // TODO: just drawFrame()
+      return drawFrame(1);
   }
 
   drawFrame(duration / durations[phase]);
