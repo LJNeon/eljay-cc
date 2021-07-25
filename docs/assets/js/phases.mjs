@@ -22,8 +22,8 @@ export function two(progress) {
   draw.L(progress, cyan);
   draw.J(progress, orange);
 }
-export function three() {
-  if(!started) {
+export function three(force) {
+  if(force || !started) {
     started = true;
     draw.background();
     draw.L(1, cyan);

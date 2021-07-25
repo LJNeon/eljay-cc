@@ -56,16 +56,14 @@ function resize() {
   if(blob !== scale.blob) {
     scale.blob = blob;
     calculateScale();
-
-    if(phase >= durations.length)
-      drawFrame(1);
+    drawFrame(1, true);
   }
 }
 
 resize();
 window.onresize = resize;
 
-function drawFrame(progress) {
+function drawFrame(progress, force = false) {
   if(phase !== 3)
     draw.background();
 
@@ -77,7 +75,7 @@ function drawFrame(progress) {
     case 2:
       return phases.two(progress);
     case 3:
-      return phases.three();
+      return phases.three(force);
     case 4:
       return phases.four(progress);
     default:
