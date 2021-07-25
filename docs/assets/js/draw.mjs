@@ -17,80 +17,82 @@ function paint([r, g, b]) {
   ctx.restore();
 }
 
-function quad(x, y, offset, horizontal) {
-  if(horizontal)
-    ctx.quadraticCurveTo(x, y, x + offset, y);
-  else
-    ctx.quadraticCurveTo(x, y, x, y + offset);
+function quadH(x, y, offset) {
+  ctx.quadraticCurveTo(x, y, x + offset, y);
 }
 
-function movingQuad(x, y, offset, progress, horizontal) {
-  if(horizontal)
-    ctx.quadraticCurveTo(x, y, x + (offset * progress), y);
-  else
-    ctx.quadraticCurveTo(x, y, x, y + (offset * progress));
+function quadV(x, y, offset) {
+  ctx.quadraticCurveTo(x, y, x, y + offset);
+}
+
+function movingQuadH(x, y, offset, progress) {
+  ctx.quadraticCurveTo(x, y, x + (offset * progress), y);
+}
+
+function movingQuadV(x, y, offset, progress) {
+  ctx.quadraticCurveTo(x, y, x, y + (offset * progress));
 }
 
 function circle(x, y, r) {
   ctx.moveTo(x - r, y);
-  quad(x - r, y - r, r, true);
-  quad(x + r, y - r, r, false);
-  quad(x + r, y + r, -r, true);
-  quad(x - r, y + r, -r, false);
+  quadH(x - r, y - r, r);
+  quadV(x + r, y - r, r);
+  quadH(x + r, y + r, -r);
+  quadV(x - r, y + r, -r);
 }
 
 function LBase() {
-  ctx.moveTo(s.pad, s.pad + (s.blob / 2));
-  quad(s.pad, s.pad, s.blob / 2, true);
-  quad(s.pad + s.blob, s.pad, s.blob / 2, false);
-  ctx.lineTo(s.pad + s.blob, s.pad + (s.blob * 2) - s.corner);
-  quad(s.pad + s.blob, s.pad + (s.blob * 2), s.corner, true);
-  ctx.lineTo(s.pad + (s.blob * 1.5), s.pad + (s.blob * 2));
-  quad(s.pad + (s.blob * 2), s.pad + (s.blob * 2), s.blob / 2, false);
-  quad(s.pad + (s.blob * 2), s.pad + (s.blob * 3), -s.blob / 2, true);
-  ctx.lineTo(s.pad + (s.blob / 2), s.pad + (s.blob * 3));
-  quad(s.pad, s.pad + (s.blob * 3), -s.blob / 2, false);
-  ctx.lineTo(s.pad, s.pad + (s.blob / 2));
+  ctx.moveTo(s.pad, s.phb);
+  quadH(s.pad, s.pad, s.hblob);
+  quadV(s.pb, s.pad, s.hblob);
+  ctx.lineTo(s.pb, s.pbb - s.corner);
+  quadH(s.pb, s.pbb, s.corner);
+  ctx.lineTo(s.pb + s.hblob, s.pbb);
+  quadV(s.pbb, s.pbb, s.hblob);
+  quadH(s.pbb, s.pbbb, -s.hblob);
+  ctx.lineTo(s.phb, s.pbbb);
+  quadV(s.pad, s.pbbb, -s.hblob);
+  ctx.lineTo(s.pad, s.phb);
 }
 
 export function background() {
   ctx.clearRect(0, 0, s.width, s.height);
   ctx.beginPath();
   LBase();
-  ctx.moveTo((s.pad * 2) + (s.blob * 2.5), s.pad);
-  ctx.lineTo((s.pad * 2) + (s.blob * 4.5), s.pad);
-  quad((s.pad * 2) + (s.blob * 5), s.pad, s.blob / 2, false);
-  quad((s.pad * 2) + (s.blob * 5), s.pad + s.blob, -s.blob / 2, true);
-  ctx.lineTo((s.pad * 2) + (s.blob * 4) + s.corner, s.pad + s.blob);
-  quad((s.pad * 2) + (s.blob * 4), s.pad + s.blob, s.corner, false);
-  ctx.lineTo((s.pad * 2) + (s.blob * 4), s.pad + (s.blob * 2.5));
-  quad((s.pad * 2) + (s.blob * 4), s.pad + (s.blob * 3), -s.blob / 2, true);
-  ctx.lineTo((s.pad * 2) + (s.blob * 2.5), s.pad + (s.blob * 3));
-  quad((s.pad * 2) + (s.blob * 2), s.pad + (s.blob * 3), -s.blob / 2, false);
-  quad((s.pad * 2) + (s.blob * 2), s.pad + (s.blob * 2), s.blob / 2, true);
-  ctx.lineTo((s.pad * 2) + (s.blob * 3) - s.corner, s.pad + (s.blob * 2));
-  quad((s.pad * 2) + (s.blob * 3), s.pad + (s.blob * 2), -s.corner, false);
-  ctx.lineTo((s.pad * 2) + (s.blob * 3), s.pad + s.blob + s.corner);
-  quad((s.pad * 2) + (s.blob * 3), s.pad + s.blob, -s.corner, true);
-  ctx.lineTo((s.pad * 2) + (s.blob * 2.5), s.pad + s.blob);
-  quad((s.pad * 2) + (s.blob * 2), s.pad + s.blob, -s.blob / 2, false);
-  quad((s.pad * 2) + (s.blob * 2), s.pad, s.blob / 2, true);
+  ctx.moveTo(s.ppbb + s.hblob, s.pad);
+  ctx.lineTo(s.ppbbbb + s.hblob, s.pad);
+  quadV(s.dpad + s.qiblob, s.pad, s.hblob);
+  quadH(s.dpad + s.qiblob, s.pb, -s.hblob);
+  ctx.lineTo(s.ppbbbb + s.corner, s.pb);
+  quadV(s.ppbbbb, s.pb, s.corner);
+  ctx.lineTo(s.ppbbbb, s.pbb + s.hblob);
+  quadH(s.ppbbbb, s.pbbb, -s.hblob);
+  ctx.lineTo(s.ppbb + s.hblob, s.pbbb);
+  quadV(s.ppbb, s.pbbb, -s.hblob);
+  quadH(s.ppbb, s.pbb, s.hblob);
+  ctx.lineTo(s.ppbbb - s.corner, s.pbb);
+  quadV(s.ppbbb, s.pbb, -s.corner);
+  ctx.lineTo(s.ppbbb, s.pb + s.corner);
+  quadH(s.ppbbb, s.pb, -s.corner);
+  ctx.lineTo(s.ppbb + s.hblob, s.pb);
+  quadV(s.ppbb, s.pb, -s.hblob);
+  quadH(s.ppbb, s.pad, s.hblob);
   ctx.closePath();
   ctx.save();
   ctx.fillStyle = "#443E3E";
   ctx.fill();
   ctx.restore();
   ctx.beginPath();
-  circle(s.pad + (s.blob / 2), s.pad + (s.blob / 2), s.corner / 2);
-  circle(s.pad + (s.blob / 2), s.pad + (s.blob * 1.5), s.corner / 2);
-  circle(s.pad + (s.blob / 2), s.pad + (s.blob * 2.5), s.corner / 2);
-  circle(s.pad + (s.blob * 1.5), s.pad + (s.blob * 2.5), s.corner / 2);
-  circle((s.pad * 2) + (s.blob * 2.5), s.pad + (s.blob / 2), s.corner / 2);
-  circle((s.pad * 2) + (s.blob * 3.5), s.pad + (s.blob / 2), s.corner / 2);
-  circle((s.pad * 2) + (s.blob * 4.5), s.pad + (s.blob / 2), s.corner / 2);
-  circle((s.pad * 2) + (s.blob * 3.5), s.pad + (s.blob * 1.5), s.corner / 2);
-  circle((s.pad * 2) + (s.blob * 3.5), s.pad + (s.blob * 2.5), s.corner / 2);
-  circle((s.pad * 2) + (s.blob * 2.5), s.pad + (s.blob * 2.5), s.corner / 2);
+  circle(s.phb, s.phb, s.hcorner);
+  circle(s.phb, s.pb + s.hblob, s.hcorner);
+  circle(s.phb, s.pbb + s.hblob, s.hcorner);
+  circle(s.pb + s.hblob, s.pbb + s.hblob, s.hcorner);
+  circle(s.ppbb + s.hblob, s.phb, s.hcorner);
+  circle(s.ppbbb + s.hblob, s.phb, s.hcorner);
+  circle(s.ppbbbb + s.hblob, s.phb, s.hcorner);
+  circle(s.ppbbb + s.hblob, s.pb + s.hblob, s.hcorner);
+  circle(s.ppbbb + s.hblob, s.pbb + s.hblob, s.hcorner);
+  circle(s.ppbb + s.hblob, s.pbb + s.hblob, s.hcorner);
   ctx.closePath();
   ctx.save();
   ctx.fillStyle = "#221F1F";
@@ -113,68 +115,68 @@ export function L(progress, color) {
     return paint(color);
   }
 
-  ctx.moveTo(s.pad, s.pad + (s.blob / 2));
-  quad(s.pad, s.pad, s.blob / 2, true);
-  quad(s.pad + s.blob, s.pad, s.blob / 2, false);
-  movingQuad(s.pad + s.blob, s.pad + s.blob, -s.blob / 2, 1 - progress, true);
-  quad(s.pad + s.blob, s.pad + s.blob, s.blob / 2, false);
+  ctx.moveTo(s.pad, s.phb);
+  quadH(s.pad, s.pad, s.hblob);
+  quadV(s.pb, s.pad, s.hblob);
+  movingQuadH(s.pb, s.pb, -s.hblob, 1 - progress);
+  quadV(s.pb, s.pb, s.hblob);
 
   if(progress <= 0.9) {
     const p = 1 - (progress / 0.9);
 
-    movingQuad(s.pad + s.blob, s.pad + (s.blob * 2), -s.blob / 2, p, true);
-    movingQuad(s.pad + s.blob, s.pad + (s.blob * 2), s.blob / 2, p, false);
+    movingQuadH(s.pb, s.pbb, -s.hblob, p);
+    movingQuadV(s.pb, s.pbb, s.hblob, p);
   }else{
     const p = (progress - 0.9) / 0.1;
 
-    ctx.lineTo(s.pad + s.blob, s.pad + (s.blob * 2) - s.corner);
-    movingQuad(s.pad + s.blob, s.pad + (s.blob * 2), s.corner, p, true);
+    ctx.lineTo(s.pb, s.pbb - s.corner);
+    movingQuadH(s.pb, s.pbb, s.corner, p);
   }
 
-  quad(s.pad + s.blob, s.pad + (s.blob * 2), s.blob / 2, true);
-  quad(s.pad + (s.blob * 2), s.pad + (s.blob * 2), s.blob / 2, false);
-  quad(s.pad + (s.blob * 2), s.pad + (s.blob * 3), -s.blob / 2, true);
-  movingQuad(s.pad + s.blob, s.pad + (s.blob * 3), -s.blob / 2, 1 - progress, false);
-  quad(s.pad + s.blob, s.pad + (s.blob * 3), -s.blob / 2, true);
-  quad(s.pad, s.pad + (s.blob * 3), -s.blob / 2, false);
-  movingQuad(s.pad, s.pad + (s.blob * 2), s.blob / 2, 1 - progress, true);
-  quad(s.pad, s.pad + (s.blob * 2), -s.blob / 2, false);
-  movingQuad(s.pad, s.pad + s.blob, s.blob / 2, 1 - progress, true);
-  quad(s.pad, s.pad + s.blob, -s.blob / 2, false);
+  quadH(s.pb, s.pbb, s.hblob);
+  quadV(s.pbb, s.pbb, s.hblob);
+  quadH(s.pbb, s.pbbb, -s.hblob);
+  movingQuadV(s.pb, s.pbbb, -s.hblob, 1 - progress);
+  quadH(s.pb, s.pbbb, -s.hblob);
+  quadV(s.pad, s.pbbb, -s.hblob);
+  movingQuadH(s.pad, s.pbb, s.hblob, 1 - progress);
+  quadV(s.pad, s.pbb, -s.hblob);
+  movingQuadH(s.pad, s.pb, s.hblob, 1 - progress);
+  quadV(s.pad, s.pb, -s.hblob);
   ctx.closePath();
   paint(color);
 }
 export function J(progress, color) {
   ctx.beginPath();
-  ctx.moveTo((s.pad * 2) + (s.blob * 3.5), s.pad);
-  quad((s.pad * 2) + (s.blob * 4), s.pad, s.blob / 2, false);
-  movingQuad((s.pad * 2) + (s.blob * 4), s.pad + s.blob, -s.blob / 2, 1 - progress, true);
-  quad((s.pad * 2) + (s.blob * 4), s.pad + s.blob, s.blob / 2, false);
-  movingQuad((s.pad * 2) + (s.blob * 4), s.pad + (s.blob * 2), -s.blob / 2, 1 - progress, true);
-  quad((s.pad * 2) + (s.blob * 4), s.pad + (s.blob * 2), s.blob / 2, false);
-  quad((s.pad * 2) + (s.blob * 4), s.pad + (s.blob * 3), -s.blob / 2, true);
-  movingQuad((s.pad * 2) + (s.blob * 3), s.pad + (s.blob * 3), -s.blob / 2, 1 - progress, false);
-  quad((s.pad * 2) + (s.blob * 3), s.pad + (s.blob * 3), -s.blob / 2, true);
-  quad((s.pad * 2) + (s.blob * 2), s.pad + (s.blob * 3), -s.blob / 2, false);
-  quad((s.pad * 2) + (s.blob * 2), s.pad + (s.blob * 2), s.blob / 2, true);
+  ctx.moveTo(s.ppbbb + s.hblob, s.pad);
+  quadV(s.ppbbbb, s.pad, s.hblob);
+  movingQuadH(s.ppbbbb, s.pb, -s.hblob, 1 - progress);
+  quadV(s.ppbbbb, s.pb, s.hblob);
+  movingQuadH(s.ppbbbb, s.pbb, -s.hblob, 1 - progress);
+  quadV(s.ppbbbb, s.pbb, s.hblob);
+  quadH(s.ppbbbb, s.pbbb, -s.hblob);
+  movingQuadV(s.ppbbb, s.pbbb, -s.hblob, 1 - progress);
+  quadH(s.ppbbb, s.pbbb, -s.hblob);
+  quadV(s.ppbb, s.pbbb, -s.hblob);
+  quadH(s.ppbb, s.pbb, s.hblob);
 
   if(progress <= 0.9) {
     const p = 1 - (progress / 0.9);
 
-    movingQuad((s.pad * 2) + (s.blob * 3), s.pad + (s.blob * 2), s.blob / 2, p, false);
-    movingQuad((s.pad * 2) + (s.blob * 3), s.pad + (s.blob * 2), s.blob / 2, p, true);
-    quad((s.pad * 2) + (s.blob * 3), s.pad + (s.blob * 2), -s.blob / 2, false);
+    movingQuadV(s.ppbbb, s.pbb, s.hblob, p);
+    movingQuadH(s.ppbbb, s.pbb, s.hblob, p);
+    quadV(s.ppbbb, s.pbb, -s.hblob);
   }else{
     const p = (progress - 0.9) / 0.1;
 
-    ctx.lineTo((s.pad * 2) + (s.blob * 3) - s.corner, s.pad + (s.blob * 2));
-    movingQuad((s.pad * 2) + (s.blob * 3), s.pad + (s.blob * 2), -s.corner, p, false);
-    ctx.lineTo((s.pad * 2) + (s.blob * 3), s.pad + (s.blob * 1.5));
+    ctx.lineTo(s.ppbbb - s.corner, s.pbb);
+    movingQuadV(s.ppbbb, s.pbb, -s.corner, p);
+    ctx.lineTo(s.ppbbb, s.pb + s.hblob);
   }
 
-  movingQuad((s.pad * 2) + (s.blob * 3), s.pad + s.blob, s.blob / 2, 1 - progress, true);
-  quad((s.pad * 2) + (s.blob * 3), s.pad + s.blob, -s.blob / 2, false);
-  quad((s.pad * 2) + (s.blob * 3), s.pad, s.blob / 2, true);
+  movingQuadH(s.ppbbb, s.pb, s.hblob, 1 - progress);
+  quadV(s.ppbbb, s.pb, -s.hblob);
+  quadH(s.ppbbb, s.pad, s.hblob);
   ctx.closePath();
   paint(color);
 }
@@ -184,70 +186,70 @@ export function JtoT(progress, color) {
   if(progress <= 0.3333) {
     const p = progress / 0.3333;
 
-    ctx.moveTo((s.pad * 2) + (s.blob * 3.5), s.pad);
-    quad((s.pad * 2) + (s.blob * 4), s.pad, s.blob / 2, false);
-    ctx.lineTo((s.pad * 2) + (s.blob * 4), s.pad + (s.blob * 2.5));
-    quad((s.pad * 2) + (s.blob * 4), s.pad + (s.blob * 3), -s.blob / 2, true);
-    movingQuad((s.pad * 2) + (s.blob * 3), s.pad + (s.blob * 3), -s.blob / 2, p, false);
-    quad((s.pad * 2) + (s.blob * 3), s.pad + (s.blob * 3), -s.blob / 2, true);
-    quad((s.pad * 2) + (s.blob * 2), s.pad + (s.blob * 3), -s.blob / 2, false);
-    quad((s.pad * 2) + (s.blob * 2), s.pad + (s.blob * 2), s.blob / 2, true);
+    ctx.moveTo(s.ppbbb + s.hblob, s.pad);
+    quadV(s.ppbbbb, s.pad, s.hblob);
+    ctx.lineTo(s.ppbbbb, s.pbb + s.hblob);
+    quadH(s.ppbbbb, s.pbbb, -s.hblob);
+    movingQuadV(s.ppbbb, s.pbbb, -s.hblob, p);
+    quadH(s.ppbbb, s.pbbb, -s.hblob);
+    quadV(s.ppbb, s.pbbb, -s.hblob);
+    quadH(s.ppbb, s.pbb, s.hblob);
 
     if(p <= 0.1) {
       const q = 1 - (p / 0.1);
 
-      ctx.lineTo((s.pad * 2) + (s.blob * 3) - s.corner, s.pad + (s.blob * 2));
-      movingQuad((s.pad * 2) + (s.blob * 3), s.pad + (s.blob * 2), -s.corner, q, false);
+      ctx.lineTo(s.ppbbb - s.corner, s.pbb);
+      movingQuadV(s.ppbbb, s.pbb, -s.corner, q);
     }else{
       const q = (p - 0.1) / 0.9;
 
-      movingQuad((s.pad * 2) + (s.blob * 3), s.pad + (s.blob * 2), s.blob / 2, q, false);
+      movingQuadV(s.ppbbb, s.pbb, s.hblob, q);
     }
 
-    ctx.lineTo((s.pad * 2) + (s.blob * 3), s.pad + (s.blob / 2));
-    quad((s.pad * 2) + (s.blob * 3), s.pad, s.blob / 2, true);
+    ctx.lineTo(s.ppbbb, s.phb);
+    quadH(s.ppbbb, s.pad, s.hblob);
   }else if(progress <= 0.6666) {
-    ctx.moveTo((s.pad * 2) + (s.blob * 3.5), s.pad);
-    quad((s.pad * 2) + (s.blob * 4), s.pad, s.blob / 2, false);
-    ctx.lineTo((s.pad * 2) + (s.blob * 4), s.pad + (s.blob * 2.5));
-    quad((s.pad * 2) + (s.blob * 4), s.pad + (s.blob * 3), -s.blob / 2, true);
-    quad((s.pad * 2) + (s.blob * 3), s.pad + (s.blob * 3), -s.blob / 2, false);
-    ctx.lineTo((s.pad * 2) + (s.blob * 3), s.pad + (s.blob / 2));
-    quad((s.pad * 2) + (s.blob * 3), s.pad, s.blob / 2, true);
+    ctx.moveTo(s.ppbbb + s.hblob, s.pad);
+    quadV(s.ppbbbb, s.pad, s.hblob);
+    ctx.lineTo(s.ppbbbb, s.pbb + s.hblob);
+    quadH(s.ppbbbb, s.pbbb, -s.hblob);
+    quadV(s.ppbbb, s.pbbb, -s.hblob);
+    ctx.lineTo(s.ppbbb, s.phb);
+    quadH(s.ppbbb, s.pad, s.hblob);
   }else{
     const p = 1 - ((progress - 0.6666) / 0.3334);
     const q = p < 0.1 ? 1 - (p / 0.1) : (p - 0.1) / 0.9;
 
-    ctx.moveTo((s.pad * 2) + (s.blob * 2.5), s.pad);
-    movingQuad((s.pad * 2) + (s.blob * 3), s.pad, s.blob / 2, p, false);
-    quad((s.pad * 2) + (s.blob * 3), s.pad, s.blob / 2, true);
-    movingQuad((s.pad * 2) + (s.blob * 4), s.pad, s.blob / 2, p, false);
-    quad((s.pad * 2) + (s.blob * 4), s.pad, s.blob / 2, true);
-    quad((s.pad * 2) + (s.blob * 5), s.pad, s.blob / 2, false);
-    quad((s.pad * 2) + (s.blob * 5), s.pad + s.blob, -s.blob / 2, true);
+    ctx.moveTo(s.ppbb + s.hblob, s.pad);
+    movingQuadV(s.ppbbb, s.pad, s.hblob, p);
+    quadH(s.ppbbb, s.pad, s.hblob);
+    movingQuadV(s.ppbbbb, s.pad, s.hblob, p);
+    quadH(s.ppbbbb, s.pad, s.hblob);
+    quadV(s.dpad + s.qiblob, s.pad, s.hblob);
+    quadH(s.dpad + s.qiblob, s.pb, -s.hblob);
 
     if(p >= 0.1) {
-      movingQuad((s.pad * 2) + (s.blob * 4), s.pad + s.blob, -s.blob / 2, q, false);
+      movingQuadV(s.ppbbbb, s.pb, -s.hblob, q);
     }else{
-      ctx.lineTo((s.pad * 2) + (s.blob * 4) + s.corner, s.pad + s.blob);
-      movingQuad((s.pad * 2) + (s.blob * 4), s.pad + s.blob, s.corner, q, false);
+      ctx.lineTo(s.ppbbbb + s.corner, s.pb);
+      movingQuadV(s.ppbbbb, s.pb, s.corner, q);
     }
 
-    ctx.lineTo((s.pad * 2) + (s.blob * 4), s.pad + (s.blob * 2.5));
-    quad((s.pad * 2) + (s.blob * 4), s.pad + (s.blob * 3), -s.blob / 2, true);
-    quad((s.pad * 2) + (s.blob * 3), s.pad + (s.blob * 3), -s.blob / 2, false);
-    ctx.lineTo((s.pad * 2) + (s.blob * 3), s.pad + s.blob + s.corner);
+    ctx.lineTo(s.ppbbbb, s.pbb + s.hblob);
+    quadH(s.ppbbbb, s.pbbb, -s.hblob);
+    quadV(s.ppbbb, s.pbbb, -s.hblob);
+    ctx.lineTo(s.ppbbb, s.pb + s.corner);
 
     if(p >= 0.1) {
-      ctx.lineTo((s.pad * 2) + (s.blob * 3), (s.pad + (s.blob / 2)) + (s.blob / 2 * (1 - q)));
-      quad((s.pad * 2) + (s.blob * 3), s.pad + s.blob, -s.blob / 2, true);
+      ctx.lineTo(s.ppbbb, s.phb + (s.hblob * (1 - q)));
+      quadH(s.ppbbb, s.pb, -s.hblob);
     }else{
-      movingQuad((s.pad * 2) + (s.blob * 3), s.pad + s.blob, -s.corner, q, true);
-      ctx.lineTo((s.pad * 2) + (s.blob * 2.5), s.pad + s.blob);
+      movingQuadH(s.ppbbb, s.pb, -s.corner, q);
+      ctx.lineTo(s.ppbb + s.hblob, s.pb);
     }
 
-    quad((s.pad * 2) + (s.blob * 2), s.pad + s.blob, -s.blob / 2, false);
-    quad((s.pad * 2) + (s.blob * 2), s.pad, s.blob / 2, true);
+    quadV(s.ppbb, s.pb, -s.hblob);
+    quadH(s.ppbb, s.pad, s.hblob);
   }
 
   ctx.closePath();

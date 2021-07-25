@@ -11,6 +11,30 @@ let last = 0;
 export const ctx = canvas.getContext("2d");
 export const scale = {};
 
+function calculateScale() {
+  // Base values
+  scale.pad = scale.blob / 4;
+  scale.corner = scale.blob / 6;
+  canvas.width = scale.width = (scale.blob * 5) + (scale.blob * 0.75);
+  canvas.height = scale.height = (scale.blob * 3) + (scale.blob / 2);
+  // Utility values
+  scale.hblob = scale.blob / 2;
+  scale.dblob = scale.blob * 2;
+  scale.tblob = scale.blob * 3;
+  scale.qublob = scale.blob * 4;
+  scale.qiblob = scale.blob * 5;
+  scale.dpad = scale.pad * 2;
+  scale.hcorner = scale.corner / 2;
+  // Additive values
+  scale.phb = scale.pad + scale.hblob;
+  scale.pb = scale.pad + scale.blob;
+  scale.pbb = scale.pad + scale.dblob;
+  scale.pbbb = scale.pad + scale.tblob;
+  scale.ppbb = scale.dpad + scale.dblob;
+  scale.ppbbb = scale.dpad + scale.tblob;
+  scale.ppbbbb = scale.dpad + scale.qublob;
+}
+
 function resize() {
   let blob;
 
@@ -31,10 +55,7 @@ function resize() {
 
   if(blob !== scale.blob) {
     scale.blob = blob;
-    scale.pad = scale.blob / 4;
-    scale.corner = scale.blob / 6;
-    canvas.width = scale.width = (scale.blob * 5) + (scale.blob * 0.75);
-    canvas.height = scale.height = (scale.blob * 3) + (scale.blob / 2);
+    calculateScale();
 
     if(phase >= durations.length)
       drawFrame(1);
