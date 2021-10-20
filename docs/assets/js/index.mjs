@@ -1,4 +1,4 @@
-const avatars = ["ee", "ff", "gg", "hh", "ii", "jj", "kka", "kkb", "ll", "mm", "nn", "oo", "pp", "qq"];
+const avatars = ["ee", "ff", "gg", "hh", "ii", "jj", "kka", "kkb", "ll", "mm", "nn", "oo", "pp", "qq", "rr"];
 
 function choose(list) {
   return list[Math.floor(Math.random() * list.length)];
