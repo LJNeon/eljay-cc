@@ -1,3 +1,4 @@
+/* eslint-disable id-length, new-cap -- TODO */
 import {ctx, scale as s} from "./animate.mjs";
 
 function lower(color, amount) {
@@ -180,6 +181,7 @@ export function J(progress, color) {
   ctx.closePath();
   paint(color);
 }
+// eslint-disable-next-line max-lines-per-function -- Size is necessary
 export function JtoT(progress, color) {
   ctx.beginPath();
 

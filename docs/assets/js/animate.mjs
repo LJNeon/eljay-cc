@@ -1,3 +1,4 @@
+/* eslint-disable id-length, no-plusplus -- TODO */
 import * as draw from "./draw.mjs";
 import * as phases from "./phases.mjs";
 
@@ -35,6 +36,26 @@ function calculateScale() {
   scale.ppbbbb = scale.dpad + scale.qublob;
 }
 
+function drawFrame(progress, force = false) {
+  if(phase !== 3)
+    draw.background();
+
+  switch(phase) {
+    case 0:
+      return undefined;
+    case 1:
+      return phases.one(progress);
+    case 2:
+      return phases.two(progress);
+    case 3:
+      return phases.three(force);
+    case 4:
+      return phases.four(progress);
+    default:
+      return phases.four(1);
+  }
+}
+
 function resize() {
   let blob;
 
@@ -63,26 +84,6 @@ function resize() {
 resize();
 window.onresize = resize;
 
-function drawFrame(progress, force = false) {
-  if(phase !== 3)
-    draw.background();
-
-  switch(phase) {
-    case 0:
-      return;
-    case 1:
-      return phases.one(progress);
-    case 2:
-      return phases.two(progress);
-    case 3:
-      return phases.three(force);
-    case 4:
-      return phases.four(progress);
-    default:
-      return phases.four(1);
-  }
-}
-
 function loop() {
   const now = Date.now();
   const since = now - last;
@@ -104,7 +105,8 @@ function loop() {
   }
 
   drawFrame(duration / durations[phase]);
-  setTimeout(loop, frame);
+
+  return setTimeout(loop, frame);
 }
 
 loop();

@@ -1,3 +1,4 @@
+/* eslint-disable id-length, new-cap -- TODO */
 import {scale as s} from "./animate.mjs";
 import * as draw from "./draw.mjs";
 
