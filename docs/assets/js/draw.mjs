@@ -11,6 +11,7 @@ function paint([r, g, b]) {
   ctx.save();
   ctx.lineWidth = 5;
   ctx.lineJoin = "round";
+  ctx.lineCap = "round";
   ctx.strokeStyle = `rgb(${lower(r, 20)},${lower(g, 20)},${lower(b, 20)})`;
   ctx.fillStyle = `rgba(${r},${g},${b},0.7)`;
   ctx.fill();
@@ -60,8 +61,8 @@ export function background() {
   const img = new Image();
 
   img.src = "assets/img/background-secondary.webp";
-  /*ctx.clearRect(0, 0, s.width, s.height);
-  ctx.beginPath();
+  ctx.clearRect(0, 0, s.width, s.height);
+  /*ctx.beginPath();
   LBase();
   ctx.moveTo(s.ppbb + s.hblob, s.pad);
   ctx.lineTo(s.ppbbbb + s.hblob, s.pad);
