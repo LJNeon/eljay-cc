@@ -57,6 +57,9 @@ function LBase() {
 }
 
 export function background() {
+  const img = new Image();
+
+  img.src = "assets/img/background-secondary.webp";
   ctx.clearRect(0, 0, s.width, s.height);
   ctx.beginPath();
   LBase();
@@ -80,7 +83,7 @@ export function background() {
   quadH(s.ppbb, s.pad, s.hblob);
   ctx.closePath();
   ctx.save();
-  ctx.fillStyle = "rgba(255, 255, 255, 0.05)";
+  ctx.fillStyle = ctx.createPattern(img, "repeat");
   ctx.fill();
   ctx.restore();
   ctx.beginPath();
