@@ -60,7 +60,7 @@ export function background() {
   const img = new Image();
 
   img.src = "assets/img/background-secondary.webp";
-  ctx.clearRect(0, 0, s.width, s.height);
+  /*ctx.clearRect(0, 0, s.width, s.height);
   ctx.beginPath();
   LBase();
   ctx.moveTo(s.ppbb + s.hblob, s.pad);
@@ -85,7 +85,7 @@ export function background() {
   ctx.save();
   ctx.fillStyle = ctx.createPattern(img, "repeat");
   ctx.fill();
-  ctx.restore();
+  ctx.restore();*/
   ctx.beginPath();
   circle(s.phb, s.phb, s.hcorner);
   circle(s.phb, s.pb + s.hblob, s.hcorner);
@@ -99,7 +99,8 @@ export function background() {
   circle(s.ppbb + s.hblob, s.pbb + s.hblob, s.hcorner);
   ctx.closePath();
   ctx.save();
-  ctx.globalCompositeOperation = "destination-out";
+  //ctx.globalCompositeOperation = "destination-out";
+  ctx.fillStyle = ctx.createPattern(img, "repeat");
   ctx.fill();
   ctx.restore();
 }
