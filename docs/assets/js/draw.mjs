@@ -80,7 +80,7 @@ export function background() {
   quadH(s.ppbb, s.pad, s.hblob);
   ctx.closePath();
   ctx.save();
-  ctx.fillStyle = "#443E3E";
+  ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
   ctx.fill();
   ctx.restore();
   ctx.beginPath();
@@ -96,7 +96,7 @@ export function background() {
   circle(s.ppbb + s.hblob, s.pbb + s.hblob, s.hcorner);
   ctx.closePath();
   ctx.save();
-  ctx.fillStyle = "#221F1F";
+  ctx.globalCompositeOperation = "destination-out";
   ctx.fill();
   ctx.restore();
 }
