@@ -1,0 +1,120 @@
+{
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "ignoreUnknown": true
+  },
+  "formatter": {
+    "indentStyle": "space",
+    "bracketSpacing": false
+  },
+  "javascript": {
+    "formatter": {
+      "trailingCommas": "none",
+      "arrowParentheses": "asNeeded",
+      "operatorLinebreak": "before"
+    }
+  },
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": {
+          "level": "on",
+          "options": {"groups": [":URL:", ":NODE:"]}
+        }
+      }
+    }
+  },
+  "linter": {
+    "domains": {"project": "none"},
+    "rules": {
+      "a11y": "off",
+      "complexity": {
+        "noExcessiveCognitiveComplexity": "on",
+        "noExcessiveLinesPerFunction": {
+          "level": "on",
+          "options": {"maxLines": 50, "skipBlankLines": true}
+        },
+        "noForEach": "on",
+        "noImplicitCoercions": "on",
+        "noUselessStringConcat": "on",
+        "useSimplifiedLogicExpression": "on",
+        "useWhile": "on"
+      },
+      "correctness": {
+        "noGlobalDirnameFilename": "on",
+        "noProcessGlobal": "on",
+        "noUndeclaredVariables": "on",
+        "useSingleJsDocAsterisk": "on"
+      },
+      "performance": {
+        "noAwaitInLoops": "on",
+        "noBarrelFile": "on",
+        "noDelete": "on",
+        "noNamespaceImport": "on",
+        "noReExportAll": "on",
+        "useTopLevelRegex": "on"
+      },
+      "security": {
+        "noSecrets": "on"
+      },
+      "style": {
+        "noCommonJs": "on",
+        "noExportedImports": "on",
+        "noNegationElse": "on",
+        "noParameterAssign": "on",
+        "noProcessEnv": "on",
+        "noShoutyConstants": "on",
+        "noSubstr": "on",
+        "noUnusedTemplateLiteral": "on",
+        "noUselessElse": "on",
+        "noYodaExpression": "on",
+        "useAtIndex": "on",
+        "useCollapsedElseIf": "on",
+        "useCollapsedIf": "on",
+        "useConsistentBuiltinInstantiation": "on",
+        "useConsistentObjectDefinitions": "on",
+        "useDefaultParameterLast": "on",
+        "useDefaultSwitchClause": "on",
+        "useExplicitLengthCheck": "on",
+        "useExportsLast": "on",
+        "useFilenamingConvention": {
+          "level": "on",
+          "options": {
+            "filenameCases": ["camelCase"],
+            "requireAscii": true
+          }
+        },
+        "useForOf": "on",
+        "useGroupedAccessorPairs": "on",
+        "useNodeAssertStrict": "on",
+        "useNumberNamespace": "on",
+        "useNumericSeparators": "on",
+        "useObjectSpread": "on",
+        "useShorthandAssign": "on",
+        "useSingleVarDeclarator": "on",
+        "useSymbolDescription": "on",
+        "useThrowNewError": "on",
+        "useThrowOnlyError": "on",
+        "useTrimStartEnd": "on"
+      },
+      "suspicious": {
+        "noConsole": "on",
+        "noConstantBinaryExpressions": "on",
+        "noEmptyBlockStatements": "on",
+        "noUnassignedVariables": "on",
+        "noVar": "on",
+        "useAwait": "on",
+        "useErrorMessage": "on",
+        "useGuardForIn": "on",
+        "useNumberToFixedDigitsArgument": "on",
+        "useStaticResponseMethods": "on",
+        "useStrictMode": "on"
+      }
+    }
+  }
+}

@@ -1,6 +1,7 @@
-/* global process */
-import {readFile, readdir, writeFile} from "node:fs/promises";
+// biome-ignore-all lint/suspicious/noConsole: Necessary for feedback.
+import {readdir, readFile, writeFile} from "node:fs/promises";
 import {dirname, join} from "node:path";
+import process from "node:process";
 import {fileURLToPath} from "node:url";
 import sharp from "sharp";
 
@@ -11,12 +12,11 @@ let packs = [];
 
 console.info("Reading...");
 
-for(const file of files)
-  contents.push(readFile(join(directory, file)));
+for (const file of files) contents.push(readFile(join(directory, file)));
 
 contents = await Promise.allSettled(contents);
 
-if(contents.some(res => res.status === "rejected")) {
+if (contents.some(res => res.status === "rejected")) {
   console.warn("Failed to read some images... exiting.");
   process.exit(1);
 }
@@ -24,17 +24,19 @@ if(contents.some(res => res.status === "rejected")) {
 console.info("Packing...");
 files = files.map(file => `${file.slice(0, file.lastIndexOf("."))}.webp`);
 
-for(let idx = 0; idx < files.length; idx += 1) {
-  packs.push(sharp(contents[idx].value)
-    .resize(128, 128, "inside")
-    .webp({effort: 6, smartDeblock: true})
-    .toFile(join(directory, "../../docs/assets/img", files[idx])));
+for (let idx = 0; idx < files.length; idx += 1) {
+  packs.push(
+    sharp(contents[idx].value)
+      .resize(128, 128, "inside")
+      .webp({effort: 6, smartDeblock: true})
+      .toFile(join(directory, "../../docs/assets/img", files[idx]))
+  );
 }
 
 packs = await Promise.allSettled(packs);
 
-for(let idx = 0; idx < files.length; idx += 1) {
-  if(packs[idx].status === "rejected")
+for (let idx = 0; idx < files.length; idx += 1) {
+  if (packs[idx].status === "rejected")
     console.warn(`Failed to pack ${files[idx]}`);
 }
 
@@ -45,7 +47,7 @@ try {
     join(directory, "../../docs/assets/json/pics.json"),
     JSON.stringify(files.map(file => file.slice(0, file.lastIndexOf("."))))
   );
-}catch(err) {
+} catch (err) {
   console.warn("Failed to list pictures...");
   console.error(err);
   process.exit(1);

@@ -6,7 +6,5 @@ function choose(list) {
 }
 
 document.oncontextmenu = () => false;
-document
-  .getElementById("avatar")
-  .style
-  .backgroundImage = `url(assets/img/${choose(avatars)}.webp)`;
+document.getElementById("avatar").style.backgroundImage =
+  `url(assets/img/${choose(avatars)}.webp)`;

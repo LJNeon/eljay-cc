@@ -1,4 +1,4 @@
-/* eslint-disable id-length, new-cap -- TODO */
+/* eslint-disable id-length -- TODO */
 import {ctx, scale as s} from "./animate.mjs";
 
 function lower(color, amount) {
@@ -28,11 +28,11 @@ function quadV(x, y, offset) {
 }
 
 function movingQuadH(x, y, offset, progress) {
-  ctx.quadraticCurveTo(x, y, x + (offset * progress), y);
+  ctx.quadraticCurveTo(x, y, x + offset * progress, y);
 }
 
 function movingQuadV(x, y, offset, progress) {
-  ctx.quadraticCurveTo(x, y, x, y + (offset * progress));
+  ctx.quadraticCurveTo(x, y, x, y + offset * progress);
 }
 
 function circle(x, y, r) {
@@ -113,7 +113,7 @@ export function blob(x, y, radius, color) {
 export function L(progress, color) {
   ctx.beginPath();
 
-  if(progress === 1) {
+  if (progress === 1) {
     LBase();
     ctx.closePath();
 
@@ -126,12 +126,12 @@ export function L(progress, color) {
   movingQuadH(s.pb, s.pb, -s.hblob, 1 - progress);
   quadV(s.pb, s.pb, s.hblob);
 
-  if(progress <= 0.9) {
-    const p = 1 - (progress / 0.9);
+  if (progress <= 0.9) {
+    const p = 1 - progress / 0.9;
 
     movingQuadH(s.pb, s.pbb, -s.hblob, p);
     movingQuadV(s.pb, s.pbb, s.hblob, p);
-  }else{
+  } else {
     const p = (progress - 0.9) / 0.1;
 
     ctx.lineTo(s.pb, s.pbb - s.corner);
@@ -165,13 +165,13 @@ export function J(progress, color) {
   quadV(s.ppbb, s.pbbb, -s.hblob);
   quadH(s.ppbb, s.pbb, s.hblob);
 
-  if(progress <= 0.9) {
-    const p = 1 - (progress / 0.9);
+  if (progress <= 0.9) {
+    const p = 1 - progress / 0.9;
 
     movingQuadV(s.ppbbb, s.pbb, s.hblob, p);
     movingQuadH(s.ppbbb, s.pbb, s.hblob, p);
     quadV(s.ppbbb, s.pbb, -s.hblob);
-  }else{
+  } else {
     const p = (progress - 0.9) / 0.1;
 
     ctx.lineTo(s.ppbbb - s.corner, s.pbb);
@@ -185,11 +185,11 @@ export function J(progress, color) {
   ctx.closePath();
   paint(color);
 }
-// eslint-disable-next-line max-lines-per-function -- Size is necessary
+// biome-ignore lint/complexity/noExcessiveLinesPerFunction: TODO
 export function JtoT(progress, color) {
   ctx.beginPath();
 
-  if(progress <= 0.3333) {
+  if (progress <= 0.3333) {
     const p = progress / 0.3333;
 
     ctx.moveTo(s.ppbbb + s.hblob, s.pad);
@@ -201,12 +201,12 @@ export function JtoT(progress, color) {
     quadV(s.ppbb, s.pbbb, -s.hblob);
     quadH(s.ppbb, s.pbb, s.hblob);
 
-    if(p <= 0.1) {
-      const q = 1 - (p / 0.1);
+    if (p <= 0.1) {
+      const q = 1 - p / 0.1;
 
       ctx.lineTo(s.ppbbb - s.corner, s.pbb);
       movingQuadV(s.ppbbb, s.pbb, -s.corner, q);
-    }else{
+    } else {
       const q = (p - 0.1) / 0.9;
 
       movingQuadV(s.ppbbb, s.pbb, s.hblob, q);
@@ -214,7 +214,7 @@ export function JtoT(progress, color) {
 
     ctx.lineTo(s.ppbbb, s.phb);
     quadH(s.ppbbb, s.pad, s.hblob);
-  }else if(progress <= 0.6666) {
+  } else if (progress <= 0.6666) {
     ctx.moveTo(s.ppbbb + s.hblob, s.pad);
     quadV(s.ppbbbb, s.pad, s.hblob);
     ctx.lineTo(s.ppbbbb, s.pbb + s.hblob);
@@ -222,9 +222,9 @@ export function JtoT(progress, color) {
     quadV(s.ppbbb, s.pbbb, -s.hblob);
     ctx.lineTo(s.ppbbb, s.phb);
     quadH(s.ppbbb, s.pad, s.hblob);
-  }else{
-    const p = 1 - ((progress - 0.6666) / 0.3334);
-    const q = p < 0.1 ? 1 - (p / 0.1) : (p - 0.1) / 0.9;
+  } else {
+    const p = 1 - (progress - 0.6666) / 0.3334;
+    const q = p < 0.1 ? 1 - p / 0.1 : (p - 0.1) / 0.9;
 
     ctx.moveTo(s.ppbb + s.hblob, s.pad);
     movingQuadV(s.ppbbb, s.pad, s.hblob, p);
@@ -234,9 +234,8 @@ export function JtoT(progress, color) {
     quadV(s.dpad + s.qiblob, s.pad, s.hblob);
     quadH(s.dpad + s.qiblob, s.pb, -s.hblob);
 
-    if(p >= 0.1) {
-      movingQuadV(s.ppbbbb, s.pb, -s.hblob, q);
-    }else{
+    if (p >= 0.1) movingQuadV(s.ppbbbb, s.pb, -s.hblob, q);
+    else {
       ctx.lineTo(s.ppbbbb + s.corner, s.pb);
       movingQuadV(s.ppbbbb, s.pb, s.corner, q);
     }
@@ -246,10 +245,10 @@ export function JtoT(progress, color) {
     quadV(s.ppbbb, s.pbbb, -s.hblob);
     ctx.lineTo(s.ppbbb, s.pb + s.corner);
 
-    if(p >= 0.1) {
-      ctx.lineTo(s.ppbbb, s.phb + (s.hblob * (1 - q)));
+    if (p >= 0.1) {
+      ctx.lineTo(s.ppbbb, s.phb + s.hblob * (1 - q));
       quadH(s.ppbbb, s.pb, -s.hblob);
-    }else{
+    } else {
       movingQuadH(s.ppbbb, s.pb, -s.corner, q);
       ctx.lineTo(s.ppbb + s.hblob, s.pb);
     }

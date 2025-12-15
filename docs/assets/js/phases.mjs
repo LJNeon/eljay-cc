@@ -1,5 +1,6 @@
-/* eslint-disable id-length, new-cap -- TODO */
+/* eslint-disable id-length -- TODO */
 import {scale as s} from "./animate.mjs";
+// biome-ignore lint/performance/noNamespaceImport: TODO
 import * as draw from "./draw.mjs";
 
 const cyan = [25, 210, 230];
@@ -24,7 +25,7 @@ export function two(progress) {
   draw.J(progress, orange);
 }
 export function three(force) {
-  if(force || !started) {
+  if (force || !started) {
     started = true;
     draw.background();
     draw.L(1, cyan);
@@ -32,17 +33,17 @@ export function three(force) {
   }
 }
 export function four(progress) {
-  const color = orange.map((c, i) => c + ((red[i] - c) * progress));
+  const color = orange.map((c, i) => c + (red[i] - c) * progress);
 
-  if(progress <= 0.6666) {
+  if (progress <= 0.6666) {
     const size = s.hblob * (progress / 0.6666);
 
     draw.blob(s.ppbb + s.hblob, s.phb, size, color);
     draw.blob(s.ppbbbb + s.hblob, s.phb, size, color);
   }
 
-  if(progress >= 0.3333 && progress !== 1) {
-    const size = s.hblob * (1 - ((progress - 0.3333) / 0.6666));
+  if (progress >= 0.3333 && progress !== 1) {
+    const size = s.hblob * (1 - (progress - 0.3333) / 0.6666);
 
     draw.blob(s.ppbb + s.hblob, s.pbb + s.hblob, size, color);
   }

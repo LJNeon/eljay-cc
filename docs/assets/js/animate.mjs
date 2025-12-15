@@ -1,23 +1,25 @@
-/* eslint-disable id-length, no-plusplus -- TODO */
+/* eslint-disable id-length -- TODO */
+// biome-ignore-start lint/performance/noNamespaceImport: TODO
 import * as draw from "./draw.mjs";
 import * as phases from "./phases.mjs";
 
+// biome-ignore-end lint/performance/noNamespaceImport: TODO
+
 const canvas = document.getElementById("animation");
+const ctx = canvas.getContext("2d");
+const scale = {};
 const durations = [1000, 2000, 1000, 3000, 3000];
 const frame = 1000 / 60;
 let phase = 0;
 let duration = 0;
 let last = 0;
 
-export const ctx = canvas.getContext("2d");
-export const scale = {};
-
 function calculateScale() {
   // Base values
   scale.pad = scale.blob / 4;
   scale.corner = scale.blob / 6;
-  canvas.width = scale.width = (scale.blob * 5) + (scale.blob * 0.75);
-  canvas.height = scale.height = (scale.blob * 3) + (scale.blob / 2);
+  canvas.width = scale.width = scale.blob * 5 + scale.blob * 0.75;
+  canvas.height = scale.height = scale.blob * 3 + scale.blob / 2;
   // Utility values
   scale.hblob = scale.blob / 2;
   scale.dblob = scale.blob * 2;
@@ -37,10 +39,9 @@ function calculateScale() {
 }
 
 function drawFrame(progress, force = false) {
-  if(phase !== 3)
-    draw.background();
+  if (phase !== 3) draw.background();
 
-  switch(phase) {
+  switch (phase) {
     case 0:
       return undefined;
     case 1:
@@ -59,22 +60,15 @@ function drawFrame(progress, force = false) {
 function resize() {
   let blob;
 
-  if(window.innerWidth >= 2290)
-    blob = 120;
-  else if(window.innerWidth >= 1821)
-    blob = 108;
-  else if(window.innerWidth >= 1352)
-    blob = 96;
-  else if(window.innerWidth >= 883)
-    blob = 84;
-  else if(window.innerWidth >= 614)
-    blob = 72;
-  else if(window.innerWidth >= 435)
-    blob = 60;
-  else
-    blob = 48;
+  if (window.innerWidth >= 2290) blob = 120;
+  else if (window.innerWidth >= 1821) blob = 108;
+  else if (window.innerWidth >= 1352) blob = 96;
+  else if (window.innerWidth >= 883) blob = 84;
+  else if (window.innerWidth >= 614) blob = 72;
+  else if (window.innerWidth >= 435) blob = 60;
+  else blob = 48;
 
-  if(blob !== scale.blob) {
+  if (blob !== scale.blob) {
     scale.blob = blob;
     calculateScale();
     drawFrame(1, true);
@@ -88,7 +82,7 @@ function loop() {
   const now = Date.now();
   const since = now - last;
 
-  if(since >= 1e3) {
+  if (since >= 1e3) {
     last = now;
 
     return setTimeout(loop, frame);
@@ -97,11 +91,10 @@ function loop() {
   duration += since;
   last = now;
 
-  if(duration >= durations[phase]) {
+  if (duration >= durations[phase]) {
     duration -= durations[phase];
 
-    if(++phase >= durations.length)
-      return drawFrame(1);
+    if (++phase >= durations.length) return drawFrame(1);
   }
 
   drawFrame(duration / durations[phase]);
@@ -110,3 +103,5 @@ function loop() {
 }
 
 loop();
+
+export {ctx, scale};
